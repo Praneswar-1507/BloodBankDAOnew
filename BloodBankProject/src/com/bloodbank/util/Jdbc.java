@@ -56,27 +56,7 @@ public class Jdbc {
 	          connection.close();
 	         }
 
-//	public static List<BloodBank> bloodBankDetails() throws ClassNotFoundException, SQLException {
-//	        Connection connection = Util.getConnection();
-//	        String query = "select donor_id,donor_name,blood_type, quantity from Bank";
-//	        PreparedStatement ps = connection.prepareStatement(query);	
-//	        ArrayList<BloodBank> list = new ArrayList<>();	
-//	        ResultSet resultSet = ps.executeQuery();
-//	        while (resultSet.next()) {   
-//	        	String donorId = resultSet.getString("donor_id");
-//	        	String donorName = resultSet.getString("donor_name");
-//	        	String bloodtype=resultSet.getString("blood_type");
-//	        	int quantity = resultSet.getInt("quantity");
-//	        	BloodBank stud1 = new BloodBank();
-//	        	stud1.setDonorId(donorId);
-//	            stud1.setDonorName(donorName);
-//	            stud1.setBloodType(bloodtype);
-//	            stud1.setQuantity(quantity);
-//	            list.add(stud1);
-//	            System.out.println(list);
-//        }
-//	        return list;	  
-//	        }
+
 	public static boolean register(BloodBank a,String donorID,Scanner scanner) throws ClassNotFoundException, SQLException {
 		boolean flag = false;
         ArrayList<String> existingList = new ArrayList<String>();
@@ -104,25 +84,25 @@ public class Jdbc {
         return flag;
 	}
 
-//	public static boolean adminCheck(String adminName,String adminPassword) throws ClassNotFoundException, SQLException
-//	{
-//		Connection connection=Util.getConnection();
-//		String query="select admin_name from stock where admin_name=? and admin_password=?";
-//		PreparedStatement ps=connection.prepareStatement(query);
-//		ps.setString(1,adminName);
-//		ps.setString(2,adminPassword);
-//		ResultSet rs=ps.executeQuery();
-//		if(!rs.next())
-//		{
-//			System.out.println("username and password doesnt match");
-//			return false;
-//		}
-//		else
-//		{
-//			System.out.println("username and password matches");
-//		}
-//		return false;
-//	}
-//
+	public static boolean adminCheck(String adminName,String adminPassword) throws ClassNotFoundException, SQLException
+	{
+		Connection connection=Util.getConnection();
+		String query="select admin_name from stock where admin_name=? and admin_password=?";
+		PreparedStatement ps=connection.prepareStatement(query);
+		ps.setString(1,adminName);
+		ps.setString(2,adminPassword);
+		ResultSet rs=ps.executeQuery();
+		if(!rs.next())
+		{
+			System.out.println("username and password doesnt match");
+			return false;
+		}
+		else
+		{
+			System.out.println("username and password matches");
+		}
+		return false;
+	}
+
 }	
 
