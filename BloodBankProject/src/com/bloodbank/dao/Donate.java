@@ -4,17 +4,16 @@ import java.util.Scanner;
 import com.bloodbank.model.BloodBank;
 public abstract class Donate {
 	BloodBank a=new BloodBank();
-	public void donate(String donorId, String bloodType) {
+	public void donate1(String donorId, String bloodType) {
 		System.out.println("Donor ID:" + donorId + "\n" + "Blood Type:" + bloodType + "ve");
 	}
 
-	public void donate(String donorName,int quantity) {
-		System.out.println("Quantity Of Blood Donated:" + quantity + "unit");
+	public void donate(String donorName) {
 		System.out.println("              ----------Thanks For Donating Blood----------");
 		 Donate.Feedback(donorName);
 	}
 
-	public abstract void donate(String donorName, String bloodType, int quantity);
+	public abstract void donate(String donorName, String bloodType);
 
 	public void bloodReceived(String recipientName, String bloodGroup, int quantityReceived) {
 		int cost = quantityReceived * 500;

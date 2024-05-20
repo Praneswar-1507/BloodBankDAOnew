@@ -13,7 +13,7 @@ import com.bloodbank.util.Jdbc;
 public class BloodBankUser {
 	TestPhoneNumber testMobile =new TestPhoneNumber();
 	public void user() throws ClassNotFoundException, SQLException {
-		String bloodType, donorName, password, donorID = null,consumeAlcohol;
+		String bloodType, donorName,phoneNumber,password,  donorID ,consumeAlcohol;
 		int quantity, noOfDays;
 		char donatedBefore;
 		BloodBank a = new BloodBank();
@@ -27,10 +27,6 @@ public class BloodBankUser {
 		bloodgroup.add("A+");
 		bloodgroup.add("B+");
 		bloodgroup.add("O+");
-		ArrayList<String> donorId =new ArrayList<>();
-		donorId.add("abc123");
-		donorId.add("ada321");
-		donorId.add("agf542");
 		if (donor.equalsIgnoreCase("yes")) {
 			System.out.println("Are You New Donor(yes/no):");
 			String user = scanner.next();
@@ -40,7 +36,8 @@ public class BloodBankUser {
 				a.setDonorName(donorName);
 				a.setDonorName(c.namecheck(scanner,donorName));
 				System.out.println("Enter Donor id:");
-				if (c.donorIdChecker1(scanner,donorId, donorID, a)) {
+				donorID=scanner.next();
+				Jdbc.Login(donorID);
 					System.out.println("Enter Password:");
 					password = scanner.next();
 					a.setPassword(c.passwordCheck(scanner, password));
@@ -61,11 +58,8 @@ public class BloodBankUser {
 						System.out.println("Enter Blood Type(A+,AB+,AB-,O+,O-,A-,B-,B+):");
 						bloodType = scanner.next();
 						a.setBloodType(c.BloodTypeCheck(scanner, bloodType));
-						System.out.println("Enter Quantity Of Blood(unit):");
-						quantity = scanner.nextInt();
-						a.setQuantity(c.quantityCheck(scanner, quantity));
-						b.donate(a.getDonorId(), a.getBloodType());
-						b.donate(a.getDonorName(),a.getQuantity());
+						b.donate1(a.getDonorId(), a.getBloodType());
+						b.donate(a.getDonorName());
 					}
 					if (donatedBefore == 'y') {
 						System.out.println("Enter number of days since previous blood donation:");
@@ -74,30 +68,33 @@ public class BloodBankUser {
 							System.out.println("Enter Blood Type(A+,AB+,AB-,O+,O-,A-,B-,B+):");
 							bloodType = scanner.next();
 							a.setBloodType(c.BloodTypeCheck(scanner, bloodType));
-							System.out.println("Enter Quantity Of Blood(unit):");
-							quantity = scanner.nextInt();
-							a.setQuantity(c.quantityCheck(scanner, quantity));
 							b.donate(a.getDonorId(), a.getBloodType());
-							b.donate(a.getDonorName(),a.getQuantity());
+							b.donate(a.getDonorName());
 						} else {
 							System.out.println("Not Eligible To Donate");
 							callMain.main(null);
 						}
 					}
-				}
+				
 			} else {
 				System.out.println("Enter Donor Id");
 				donorID = scanner.next();
 				a.setDonorId(donorID);
-				donorId.add(donorID);
 				if(Jdbc.register(a,a.getDonorId(),scanner)) {
+				System.out.println("have you consumed alcohol(y/n):");
+					 consumeAlcohol=scanner.next();
+					if(consumeAlcohol.equals("y"))
+					{
+						System.out.println("not eligible to donate");
+						callMain.main(null);
+					}
 				System.out.println("Enter user name:");
 				donorName = scanner.next();
 				a.setDonorName(c.namecheck(scanner,donorName));
 				while(true)
 				{
 					System.out.println("Enter Phone Number:");
-					String phoneNumber = scanner.next();
+					 phoneNumber = scanner.next();
 				 try {
 					 testMobile.validate(phoneNumber);
 					 break;
@@ -105,8 +102,10 @@ public class BloodBankUser {
 					 System.out.println(e);
 				 }
 				}
+				System.out.println("Enter Location");
+				String location=scanner.next();
 				System.out.println("create password:");
-				password = scanner.next();
+				 password = scanner.next();
 				a.setPassword(c.passwordCheck(scanner, password));
 				System.out.println("Enter password again:");
 				String confirmPassword = scanner.next();
@@ -118,15 +117,15 @@ public class BloodBankUser {
 				System.out.println("Enter Blood Type(A+,AB+,AB-,O+,O-,A-,B-,B+):");
 				bloodType = scanner.next();
 				a.setBloodType(c.BloodTypeCheck(scanner, bloodType));
-				System.out.println("Enter Quantity Of Blood(unit):");
-				quantity = scanner.nextInt();
-				a.setQuantity(c.quantityCheck(scanner, quantity));
-				a.setDonorName(donorName);
-				b.donate(a.getDonorName(), a.getBloodType(), a.getQuantity());
+				a.setLocation(location);
+				a.setPhonenumber(phoneNumber);
+				b.donate(a.getDonorName(), a.getBloodType());
+				Jdbc.insert(a.getDonorId(), a.getDonorName(), a.getBloodType(),a.getPhonenumber(),a.getLocation());
 				}
 			}
-			Jdbc.insert(a.getDonorId(), a.getDonorName(), a.getBloodType(), a.getQuantity());
-			} else {
+			
+			} 
+		else {
 			System.out.println("Enter Recipient name:");
 			String recipientName = scanner.next();
 			a.setDonorName(c.namecheck(scanner,recipientName));
@@ -151,7 +150,7 @@ public class BloodBankUser {
 					b.bloodReceived(a.getRecipientName(), a.getBloodGroup(), a.getQuantity());
 				}
 			}
-			System.out.println("            --------Thankyou for contacting us--------");
+			System.out.println("            --------Thankyou for contacting us--------         ");
 		}
 	}
 }

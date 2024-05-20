@@ -26,7 +26,7 @@ public class BloodBankMain {
 			return;
 		case 3:
 			System.out.println("Exited succesfully");
-			System.out.println("Select \n1.admin \n2.user \n3.Exit");
+			System.out.println("Select \n1.Admin \n2.User \n3.Exit");
 			selectOption=scan.nextInt();
 			
 		}

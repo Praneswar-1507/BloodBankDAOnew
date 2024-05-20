@@ -1,8 +1,10 @@
 package com.bloodbank.util;
 
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,23 @@ import java.util.Scanner;
 import com.bloodbank.model.BloodBank;
 
 public class Jdbc {
+	public static boolean Login(String id) throws ClassNotFoundException, SQLException {
+        Connection connection = Util.getConnection();
+        String checkUser = "select donor_id=? from DonorDetails";
+        PreparedStatement prepareStatement = connection.prepareStatement(checkUser);
+        prepareStatement.setString(1, id);
+        ResultSet resultSet = prepareStatement.executeQuery();
+      
+        if (resultSet.next()) {
+           
+            return true;
+
+        } else
+            System.out.println("please register us new donor");
+
+        return false;
+
+    }
 	
 
 	public static void update(int quantity,String bloodType)throws ClassNotFoundException, SQLException {
@@ -33,7 +52,7 @@ public class Jdbc {
 
 	public static void delete(String donorId) throws ClassNotFoundException, SQLException {
 		Connection connection = Util.getConnection();
-		String deleteid = "delete from Bank where donor_id=?";
+		String deleteid = "delete from DonorDetails  where donor_id=?";
 		PreparedStatement p = connection.prepareStatement(deleteid);
 		p.setString(1, donorId);
 		int row = p.executeUpdate();
@@ -42,15 +61,17 @@ public class Jdbc {
 		}
 	
 
-	public static void insert(String donorId,String donorName,String bloodType,int quantity)throws ClassNotFoundException,SQLException
+	public static void insert(String donorId,String donorName,String bloodType,String phoneNumber,String location)throws ClassNotFoundException,SQLException
 	         {
 	          Connection connection = Util.getConnection();
-	          String insertdata="insert into Bank values(?,?,?,?)";
+	          String insertdata="insert into DonorDetails values(?,?,?,?,?,?)";
 	          PreparedStatement p= connection.prepareStatement(insertdata);
 	          p.setString(1,donorId);
 	          p.setString(2,donorName);
 	          p.setString(3,bloodType);
-	          p.setInt(4,quantity);
+	          p.setString(4,phoneNumber);
+	          p.setString(5,location);
+	          p.setDate(6, new java.sql.Date(new Date().getTime()));
 	        int row=  p.executeUpdate();
 	        System.out.println("inserted data:"+row);
 	          connection.close();
@@ -61,7 +82,7 @@ public class Jdbc {
 		boolean flag = false;
         ArrayList<String> existingList = new ArrayList<String>();
         Connection connection =Util.getConnection();
-        String check = "select donor_id from Bank";
+        String check = "select donor_id from DonorDetails";
         PreparedStatement ps = connection.prepareStatement(check);
         ResultSet resultSet = ps.executeQuery();
         while (resultSet.next()) {
@@ -100,8 +121,31 @@ public class Jdbc {
 		else
 		{
 			System.out.println("username and password matches");
+			return true;
 		}
-		return false;
+		
+	}
+	public static void donorList() throws ClassNotFoundException, SQLException
+	{
+		Connection connection=Util.getConnection();
+		String query="select donor_name,blood_type,phonenumber,location from DonorDetails";
+	    PreparedStatement ps = connection.prepareStatement(query);
+        ResultSet resultSet = ps.executeQuery();
+        ResultSetMetaData rsmd=resultSet.getMetaData();
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+            System.out.printf("%-15s", rsmd.getColumnName(i)); 
+        }
+        System.out.println(); 
+
+        
+        while (resultSet.next()) {
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                String value = resultSet.getString(i);
+                System.out.printf("%-15s", value); 
+            }
+            System.out.println(); 
+        }
+
 	}
 
 }	

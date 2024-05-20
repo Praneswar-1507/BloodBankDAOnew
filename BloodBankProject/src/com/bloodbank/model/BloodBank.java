@@ -1,12 +1,28 @@
 package com.bloodbank.model;
 
 public class BloodBank {
-	String bloodType, donorName, recipientName, bloodGroup, donorId, password;
+	String bloodType, donorName, recipientName, bloodGroup, donorId, password,phonenumber,location;
 	int quantity, noOfDays, quantityReceived, selectOption;
 	char donatedbefore;
 
 	public BloodBank() {
 
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getPhonenumber() {
+		return phonenumber;
+	}
+
+	public void setPhonenumber(String phonenumber) {
+		this.phonenumber = phonenumber;
 	}
 
 	public String getPassword() {
@@ -97,14 +113,21 @@ public class BloodBank {
 		this.quantity = quantity;
 	}
 
+
+
+
 	public BloodBank(String bloodType, String donorName, String recipientName, String bloodGroup, String donorId,
-			int quantity, int noOfDays, int quantityReceived, int selectOption, char donatedbefore) {
+			String password, String phonenumber, String location, int quantity, int noOfDays, int quantityReceived,
+			int selectOption, char donatedbefore) {
 		super();
 		this.bloodType = bloodType;
 		this.donorName = donorName;
 		this.recipientName = recipientName;
 		this.bloodGroup = bloodGroup;
 		this.donorId = donorId;
+		this.password = password;
+		this.phonenumber = phonenumber;
+		this.location = location;
 		this.quantity = quantity;
 		this.noOfDays = noOfDays;
 		this.quantityReceived = quantityReceived;
@@ -115,9 +138,14 @@ public class BloodBank {
 	@Override
 	public String toString() {
 		return "BloodBank [bloodType=" + bloodType + ", donorName=" + donorName + ", recipientName=" + recipientName
-				+ ", bloodGroup=" + bloodGroup + ", donorId=" + donorId + ", quantity=" + quantity + ", noOfDays="
-				+ noOfDays + ", quantityReceived=" + quantityReceived + ", selectOption=" + selectOption
-				+ ", donatedbefore=" + donatedbefore + "]";
+				+ ", bloodGroup=" + bloodGroup + ", donorId=" + donorId + ", password=" + password + ", phonenumber="
+				+ phonenumber + ", location=" + location + ", quantity=" + quantity + ", noOfDays=" + noOfDays
+				+ ", quantityReceived=" + quantityReceived + ", selectOption=" + selectOption + ", donatedbefore="
+				+ donatedbefore + "]";
 	}
+
+
+
+	
 
 }

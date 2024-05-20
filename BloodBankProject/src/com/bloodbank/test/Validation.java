@@ -7,20 +7,6 @@ import com.bloodbank.model.BloodBank;
 
 public class Validation {
 	BloodBank a1 = new BloodBank();
-	boolean donorIdChecker1(Scanner scanner, ArrayList<String> donorId, String donorID, BloodBank a) {
-		while (scanner.hasNext()) {
-			donorID = scanner.next();
-			for (String s:donorId) {
-				if (s.equals(donorID)) {
-					System.out.println("matched");
-					a.setDonorId(donorID);
-					return true;
-				}
-			}
-			System.out.println("Enter valid ID:");
-		}
-		return false;
-	}
 	public String namecheck(Scanner scanner,String donorName)
 	{
 		while(true)

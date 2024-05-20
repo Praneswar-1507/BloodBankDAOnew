@@ -10,27 +10,31 @@ public class BloodBankAdmin {
 		BloodBank a=new BloodBank();
 		Validation c=new Validation();
 		Scanner d=new Scanner(System.in);
+		while(true)
+		{
 		System.out.println("Enter admin name:");
 		String adminName=d.next();
-		while(!adminName.matches("abc123"))
-		{
-			System.out.println("Enter Valid name:");
-			adminName=d.next();
-		}
 		System.out.println("Enter password:");
 		String password=d.next();
-		while(!password.matches("abc@123"))
+		if(Jdbc.adminCheck(adminName, password))
 		{
-			System.out.println("Enter password:");
-			 password=d.next();
-			
+			BloodBankAdmin.adminadd(d,c,a);
+			break;
 		}
+		else
+		{
+			System.out.println("Enter valid name and password");
+		}
+		}
+	}
+		public static  void adminadd(Scanner d,Validation c,BloodBank a)throws ClassNotFoundException,SQLException
+		{
 		System.out.println("-----------login successfully-------------");
-		System.out.println("1.adding stock 2.Delete");
+		System.out.println("Select \n1.adding stock \n2.view DonorDetails \n3.Delete \n4.Exit");
 		try
 		{
 		int Details=d.nextInt();
-		
+		while(true)
 		switch(Details)
 		{
 		case 1:
@@ -42,14 +46,25 @@ public class BloodBankAdmin {
 			int quantityAdded=d.nextInt();
 			a.setQuantity(c.quantityCheck(d, quantityAdded));
 			Jdbc.update(quantityAdded,bloodType);
-			break;
+			return;
 		}
 		case 2:
+		{
+			Jdbc.donorList();
+			return;
+		}
+		case 3:
 		{
 			System.out.println("Please enter the id ");
 			String donorId = d.next();
 			Jdbc.delete(donorId);
-			break;
+			return;
+		}
+		case 4:
+		{
+			System.out.println("          Exited Successfully       ");
+			System.out.println("Select \n1.adding stock \n2.Delete \n3.Exit");
+			Details=d.nextInt();
 		}
 	
 			
@@ -58,7 +73,8 @@ public class BloodBankAdmin {
 	
 		
 		
-	}
+	
+		}
 	catch(Exception ex)
 	{
 		System.out.println(ex.getMessage());
